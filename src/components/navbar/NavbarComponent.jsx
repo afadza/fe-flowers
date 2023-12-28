@@ -1,17 +1,14 @@
 import React from "react";
-import { CiHeart } from "react-icons/ci";
-import { IoSearch } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
 import useAuth from "../../hooks/useAuth";
-// const logo = require("../../../public/assets/images/flower-1.png");
+import ProfileComponent from "./components/ProfileComponent";
+import CartComponent from "../main/CartComponent";
+import { useSelector } from "react-redux";
 
 function NavbarComponent() {
-  const { handleClick, handleLogout } = useAuth();
-  // function handleLogout() {
-  //   localStorage.removeItem("email");
-  //   window.location.reload();
-  // }
+  const auth = useSelector((state) => state.auth);
+  const { handleLogout } = useAuth();
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 w-full text-sm">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -79,6 +76,12 @@ function NavbarComponent() {
               placeholder="Search..."
             />
           </div>
+          <div className="flex gap-4 items-center">
+            <div className="hidden md:flex mx-4 gap-4 items-center justify-center">
+              <CartComponent />
+              <ProfileComponent />
+            </div>
+          </div>
           <button
             data-collapse-toggle="navbar-search"
             type="button"
@@ -134,6 +137,11 @@ function NavbarComponent() {
               placeholder="Search..."
             />
           </div>
+          <div className="flex md:hidden w-full justify-between px-4 mt-4 items-center border-t-2 py-2">
+            <p>Account</p>
+            <VscAccount size={30} />
+          </div>
+
           {/* <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <a

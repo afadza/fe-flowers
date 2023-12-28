@@ -1,20 +1,14 @@
 import React from "react";
-import { IoCartOutline } from "react-icons/io5";
 import { useParams } from "react-router-dom";
-import Flowers from "../../mocks/flowers";
+import useProduct from "../../hooks/useProduct";
+import useCart from "../../hooks/useCart";
 
 function DetailProductComponent() {
+  const { addToCart, incrementQuantity, decrementQuantity, quantity } =
+    useCart();
+  const { Products } = useProduct();
   const { id } = useParams();
-  const flower = Flowers.find((item) => item.id === parseInt(id, 10));
-  const [quantity, setQuantity] = React.useState(1);
-  function decrementQuantity() {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  }
-  function incrementQuantity() {
-    setQuantity(quantity + 1);
-  }
+  const flower = Products.find((item) => item.id === parseInt(id, 10));
 
   if (!flower) {
     return <div>Flower not found</div>;
@@ -36,6 +30,12 @@ function DetailProductComponent() {
       );
     }
     return stars;
+  };
+
+  const formatPrice = (price) => {
+    return parseFloat(price).toLocaleString("id-ID", {
+      maximumFractionDigits: 2,
+    });
   };
 
   return (
@@ -72,7 +72,9 @@ function DetailProductComponent() {
       </div>
       <div className="w-full p-4 flex gap-4 md:items-center justify-between items-end">
         <div className="flex flex-col md:flex-row w-full md:gap-6 gap-2 items-start md:items-center">
-          <p className="text-xl md:text-md font-bold">Rp. {flower.price}</p>
+          <p className="text-xl md:text-md font-bold">
+            Rp. {formatPrice(flower.price)}
+          </p>
           <div className="flex items-center gap-4">
             <button
               onClick={decrementQuantity}
@@ -90,7 +92,10 @@ function DetailProductComponent() {
           </div>
         </div>
         <div className="md:w-[30%] w-full flex justify-center">
-          <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button
+            onClick={addToCart}
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
             Add to cart
           </button>
         </div>

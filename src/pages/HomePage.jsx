@@ -5,9 +5,7 @@ import { useSelector } from "react-redux";
 
 function HomePage() {
   const auth = useSelector((state) => state.auth);
-  console.log("auth", auth);
 
-  
   return (
     <Main>
       <div className="w-full h-full flex justify-center items-center">

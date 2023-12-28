@@ -1,6 +1,11 @@
 import React from "react";
 import { IoCartOutline } from "react-icons/io5";
 function CardComponent({ flower }) {
+  const formatPrice = (price) => {
+    return parseFloat(price).toLocaleString("id-ID", {
+      maximumFractionDigits: 2,
+    });
+  };
   const renderRatingStars = () => {
     const stars = [];
     for (let i = 0; i < flower.rating; i++) {
@@ -57,7 +62,7 @@ function CardComponent({ flower }) {
 
           <div className="flex items-center justify-between gap-10">
             <span className="text-sm font-bold text-gray-900 dark:text-white">
-              Rp.{flower.price}
+              Rp. {formatPrice(flower.price)}
             </span>
           </div>
         </div>

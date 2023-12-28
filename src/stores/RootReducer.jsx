@@ -5,7 +5,7 @@ export const { AUTH_LOGIN, AUTH_LOGOUT } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 
 export const RootReducer = combineReducers({
-  auth: authSlice.reducer,
+  auth: authReducer,
 });
 
 export default RootReducer;
