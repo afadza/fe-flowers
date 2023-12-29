@@ -1,18 +1,38 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { VscAccount } from "react-icons/vsc";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import useAddress from "../../../hooks/useAddress";
+import { FiMapPin } from "react-icons/fi";
+import { motion } from "framer-motion";
+import { Tabs } from "flowbite-react";
 
 function ProfileComponent() {
-  const auth = useSelector((state) => state.auth);
+  const {
+    auth,
+    isOpen,
+    setIsOpen,
+    isLoading,
+    editCustomer,
+    Provinces,
+    Regencies,
+    Districts,
+    Villages,
+    selectedProvinceId,
+    selectedRegencyId,
+    selectedDistrictId,
+    selectedVillageId,
+    customer,
+    edit,
+    handleEdit,
+    handleChange,
+    handleProvinceChange,
+    handleRegencyChange,
+    handleDistrictChange,
+    handleVillageChange,
+  } = useAddress();
 
-  useEffect(() => {
-    axios
-      .get("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
-      .then((res) => {
-        console.log(res.data);
-      });
-  });
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -24,6 +44,7 @@ function ProfileComponent() {
       >
         <VscAccount size={30} />
       </button>
+
       <div
         id="crud-modal"
         tabIndex={-1}
@@ -38,7 +59,8 @@ function ProfileComponent() {
               </h3>
               <button
                 type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                onClick={handleEdit}
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-[8px] w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-toggle="crud-modal"
               >
                 <svg
@@ -60,103 +82,317 @@ function ProfileComponent() {
               </button>
             </div>
             {/* Modal body */}
-            <form className="p-4 md:p-5">
-              <div className="grid gap-4 mb-4 grid-cols-2">
-                <div className="col-span-2">
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+
+            {edit ? (
+              <div className="p-4 md:p-5">
+                <div className="mb-10">
+                  <Tabs aria-label="Full width tabs" style="fullWidth">
+                    <Tabs.Item active title="Profile">
+                      <div className="col-span-2">
+                        <label
+                          htmlFor="name"
+                          className="block text-[8px] font-medium text-gray-900 dark:text-white"
+                        >
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          onChange={handleChange}
+                          value={customer.name}
+                          id="name"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                          placeholder="Your name"
+                          required
+                        />
+                      </div>
+                      <div className="w-full col-span-2 mt-2">
+                        <p className="text-[8px]">Address</p>
+                        <motion.nav
+                          initial={false}
+                          animate={isOpen ? "open" : "closed"}
+                          className={`menu w-full col-span-2 ${
+                            isOpen ? "h-full" : "h-10"
+                          } bg-gray-50 cursor-pointer  border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 flex flex-col w-full p-1 dark:bg-gray-600 dark:border-gray-500 col-span-2 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 `}
+                        >
+                          <motion.button
+                            type="button"
+                            whileTap={{ scale: 0.97 }}
+                            onClick={() => {
+                              setIsOpen(!isOpen);
+                            }}
+                            className="w-full col-span-2"
+                          >
+                            <div className="bg-gray-50 cursor-pointer  border border-gray-300 text-gray-900 text-[8px] rounded-md focus:ring-primary-600 focus:border-primary-600 flex flex-col w-full p-1 dark:bg-gray-600 dark:border-gray-500 col-span-2 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 items-center">
+                              <div className="flex items-center w-full justify-between">
+                                <p>
+                                  {auth.address
+                                    ? auth.address
+                                    : "Choose your address"}
+                                </p>
+                                <FiMapPin />
+                              </div>
+                            </div>
+                          </motion.button>
+                          <motion.div
+                            variants={{
+                              open: {
+                                clipPath: "inset(0% 0% 0% 0% round 10px)",
+                                transition: {
+                                  type: "spring",
+                                  bounce: 0,
+                                  duration: 0.7,
+                                  delayChildren: 0.3,
+                                  staggerChildren: 0.05,
+                                },
+                              },
+                              closed: {
+                                clipPath: "inset(10% 50% 90% 50% round 10px)",
+                                transition: {
+                                  type: "spring",
+                                  bounce: 0,
+                                  duration: 0.3,
+                                },
+                              },
+                            }}
+                            style={{ pointerEvents: isOpen ? "auto" : "none" }}
+                          >
+                            <div className="col-span-2">
+                              <input
+                                type="text"
+                                name="address"
+                                onChange={handleChange}
+                                value={customer.address}
+                                id="address"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="Jl. Kebon jeruk..."
+                                required
+                              />
+                            </div>
+                            <motion.div className="col-span-2 flex gap-2  text-[8px]">
+                              <div className="w-full">
+                                <label className="block text-gray-900 dark:text-white">
+                                  Province
+                                </label>
+                                <select
+                                  value={selectedProvinceId.id}
+                                  onChange={(e) =>
+                                    handleProvinceChange(
+                                      e.target.value,
+                                      e.target.options[e.target.selectedIndex]
+                                        .text
+                                    )
+                                  }
+                                  className="bg-gray-50 border text-[8px] cursor-pointer border-gray-300 text-gray-900 rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                >
+                                  <option hidden>Select category</option>
+                                  {Provinces?.map((province) => (
+                                    <option
+                                      key={province.id}
+                                      value={province.id}
+                                    >
+                                      {province.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="w-full">
+                                <label className="block text-gray-900 dark:text-white">
+                                  Regencies
+                                </label>
+                                <select
+                                  value={selectedRegencyId.id}
+                                  onChange={(e) =>
+                                    handleRegencyChange(
+                                      e.target.value,
+                                      e.target.options[e.target.selectedIndex]
+                                        .text
+                                    )
+                                  }
+                                  className="bg-gray-50 border text-[8px] cursor-pointer border-gray-300 text-gray-900 rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                >
+                                  <option hidden>Select category</option>
+                                  {Regencies?.map((regencies) => (
+                                    <option
+                                      key={regencies.id}
+                                      value={regencies.id}
+                                    >
+                                      {regencies.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </motion.div>
+                            <motion.div className="col-span-2 flex gap-2  text-[8px]">
+                              <div className="w-full">
+                                <label className="block text-gray-900 dark:text-white">
+                                  Districts
+                                </label>
+                                <select
+                                  value={selectedDistrictId.id}
+                                  onChange={(e) =>
+                                    handleDistrictChange(
+                                      e.target.value,
+                                      e.target.options[e.target.selectedIndex]
+                                        .text
+                                    )
+                                  }
+                                  className="bg-gray-50 border text-[8px] cursor-pointer border-gray-300 text-gray-900 rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                >
+                                  <option hidden>Select category</option>
+                                  {Districts?.map((district) => (
+                                    <option
+                                      key={district.id}
+                                      value={district.id}
+                                    >
+                                      {district.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="w-full">
+                                <label className="block text-gray-900 dark:text-white">
+                                  Villages
+                                </label>
+                                <select
+                                  value={selectedVillageId.id}
+                                  onChange={(e) =>
+                                    handleVillageChange(
+                                      e.target.value,
+                                      e.target.options[e.target.selectedIndex]
+                                        .text
+                                    )
+                                  }
+                                  className="bg-gray-50 border text-[8px] cursor-pointer border-gray-300 text-gray-900 rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                >
+                                  <option hidden>Select category</option>
+                                  {Villages?.map((village) => (
+                                    <option key={village.id} value={village.id}>
+                                      {village.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </motion.div>
+                          </motion.div>
+                        </motion.nav>
+                      </div>
+                    </Tabs.Item>
+                    <Tabs.Item title="Account">
+                      <div className="grid grid-cols-2">
+                        <div className="col-span-2">
+                          <label
+                            htmlFor="email"
+                            className="block mb-2 text-[8px] font-medium text-gray-900 dark:text-white"
+                          >
+                            Email
+                            <input
+                              type="text"
+                              name="email"
+                              onChange={handleChange}
+                              value={customer.email}
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="jhon@mail.com"
+                              required
+                            />
+                          </label>
+                        </div>
+                        <div className="col-span-2">
+                          <label
+                            htmlFor="password"
+                            className="block mb-2 text-[8px] font-medium text-gray-900 dark:text-white"
+                          >
+                            Password
+                            <input
+                              type="text"
+                              name="password"
+                              onChange={handleChange}
+                              value={customer.password}
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="jhon@mail.com"
+                              required
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </Tabs.Item>
+                  </Tabs>
+                </div>
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={handleEdit}
+                    className="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-[8px] px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                   >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    disabled
-                    value={auth.name}
-                    id="name"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Type product name"
-                    required
-                  />
-                </div>
-                <div>
-                  <p>Address</p>
-                </div>
-                <div className="flex">
-                  <div className="col-span-2 sm:col-span-1">
-                    <label
-                      htmlFor="price"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Price
-                    </label>
-                    <input
-                      type="number"
-                      name="price"
-                      id="price"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="$2999"
-                      required
-                    />
-                  </div>
-                  <div className="col-span-2 sm:col-span-1">
-                    <label
-                      htmlFor="category"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Category
-                    </label>
-                    <select
-                      id="category"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      defaultValue="Select category"
-                    >
-                      <option disabled hidden>
-                        Select category
-                      </option>
-                      <option value="TV">TV/Monitors</option>
-                      <option value="PC">PC</option>
-                      <option value="GA">Gaming/Console</option>
-                      <option value="PH">Phones</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="description"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleEdit();
+                      editCustomer();
+                    }}
+                    className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[8px] px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
-                    Product Description
-                  </label>
-                  <textarea
-                    id="description"
-                    rows={4}
-                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Write product description here"
-                    defaultValue={""}
-                  />
+                    Save
+                  </button>
                 </div>
               </div>
-              <button
-                type="submit"
-                className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                <svg
-                  className="me-1 -ms-1 w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Add new product
-              </button>
-            </form>
+            ) : (
+              <div className="p-4 md:p-5">
+                <div className="grid gap-4 mb-4 grid-cols-2 text-[8px]">
+                  <div className="col-span-2">
+                    <label
+                      htmlFor="name"
+                      className="block font-medium text-gray-900 dark:text-white"
+                    >
+                      Name
+                    </label>
+                    <div className="bg-gray-50  border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 flex flex-col w-full p-1 dark:bg-gray-600 dark:border-gray-500 col-span-2 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 items-center">
+                      <div className="flex items-center w-full gap-2">
+                        <VscAccount />
+                        <p>{auth.name}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full col-span-2">
+                    <p>Address</p>
+                    <div className="bg-gray-50  border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 flex flex-col w-full p-1 dark:bg-gray-600 dark:border-gray-500 col-span-2 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 items-center">
+                      <div className="flex items-center w-full gap-2">
+                        <FiMapPin />
+                        <p>{auth.address}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-span-2">
+                    <label
+                      htmlFor="description"
+                      className="block mb-2 text-[8px] font-medium text-gray-900 dark:text-white"
+                    >
+                      Email
+                      <input
+                        type="text"
+                        name="email"
+                        disabled
+                        value={auth.email}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Type product name"
+                        required
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={handleEdit}
+                    className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[8px] px-5 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

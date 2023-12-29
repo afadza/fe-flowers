@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import ProfileComponent from "./components/ProfileComponent";
 import CartComponent from "../main/CartComponent";
 import { useSelector } from "react-redux";
+import CartDekstop from "../main/CartDekstop";
 
 function NavbarComponent() {
   const auth = useSelector((state) => state.auth);
@@ -78,7 +79,10 @@ function NavbarComponent() {
           </div>
           <div className="flex gap-4 items-center">
             <div className="hidden md:flex mx-4 gap-4 items-center justify-center">
-              <CartComponent />
+              <div className="-mt-2">
+
+              <CartDekstop />
+              </div>
               <ProfileComponent />
             </div>
           </div>

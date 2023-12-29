@@ -6,7 +6,7 @@ import CartComponent from "../components/main/CartComponent";
 function Main({ children }) {
   return (
     <div className="flex flex-col justify-center items-center w-full">
-      <div className="fixed bottom-5 right-5 z-50 bg-white w-10 h-10 hover:bg-neutral-300 rounded-full block shadow-md">
+      <div className="fixed bottom-5 md:hidden right-5 z-50 bg-white w-10 h-10 hover:bg-neutral-300 rounded-full block shadow-md">
         <CartComponent />
       </div>
       <div className="md:w-[65%] w-full h-full">

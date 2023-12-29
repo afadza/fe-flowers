@@ -79,7 +79,7 @@ function CartComponent() {
             {/* Modal body */}
             <div className="p-4 md:p-5">
               <p className="text-gray-500 dark:text-gray-400 mb-4">
-                Select your desired position:
+                Select your choice:
               </p>
               <ul className="space-y-4 mb-4">
                 {cart.map((item, index) => (
