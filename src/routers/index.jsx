@@ -10,9 +10,11 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import ProductPage from "../pages/ProductsPage";
 import DetailProductPage from "../pages/DetailProductPage";
+import AdminPage from "../pages/AdminPage";
 function RoutePages() {
   function IsNotLogin() {
-    if (localStorage.getItem("token") === null) {
+    const token = localStorage.getItem("token");
+    if (!token) {
       return <Navigate to="/login" />;
     } else {
       return <Outlet />;
@@ -23,6 +25,7 @@ function RoutePages() {
       <Routes>
         <Route path="/" element={<IsNotLogin />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/flashsale" element={<ProductPage />} />
           <Route path="/flashsale/:id" element={<DetailProductPage />} />
           <Route path="/bestseller/" element={<ProductPage />} />

@@ -1,34 +1,17 @@
 import React, { useState } from "react";
 import { IoCartOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import useCart from "../../hooks/useCart";
 
 function CartDekstop() {
-  const auth = useSelector((state) => state.auth);
-  const cart = auth.cart;
-  const [checkedItems, setCheckedItems] = useState({});
+  const {
+    cart,
+    checkedItems,
+    checkout,
+    handleCheckboxChange,
+    calculateTotalPrice,
+    formatPrice,
+  } = useCart();
 
-  const handleCheckboxChange = (itemId) => {
-    setCheckedItems((prevItems) => ({
-      ...prevItems,
-      [itemId]: !prevItems[itemId],
-    }));
-  };
-
-  const calculateTotalPrice = () => {
-    let totalPrice = 0;
-    cart.forEach((item) => {
-      if (checkedItems[item.id]) {
-        totalPrice += parseFloat(item.totalPrice);
-      }
-    });
-    return totalPrice.toFixed(2);
-  };
-
-  const formatPrice = (price) => {
-    return parseFloat(price).toLocaleString("id-ID", {
-      maximumFractionDigits: 2,
-    });
-  };
   return (
     <div className="w-full">
       {/* drawer init and toggle */}
@@ -146,7 +129,11 @@ function CartDekstop() {
               <span className="font-bold">Total Price : </span>
               {formatPrice(calculateTotalPrice())}
             </p>
-            <button className="text-white inline-flex max-w-xs w-full justify-center bg-blue-700 hover:bg-blue-800 font-medium  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <button
+              type="button"
+              onClick={checkout}
+              className="text-white inline-flex max-w-xs w-full justify-center bg-blue-700 hover:bg-blue-800 font-medium  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
               Checkout
             </button>
           </div>
