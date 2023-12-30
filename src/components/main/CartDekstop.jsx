@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { IoCartOutline } from "react-icons/io5";
+import { Tabs } from "flowbite-react";
 import useCart from "../../hooks/useCart";
 
 function CartDekstop() {
   const {
     cart,
+    cartOrder,
     checkedItems,
     checkout,
     handleCheckboxChange,
@@ -76,59 +78,149 @@ function CartDekstop() {
           <span className="sr-only">Close menu</span>
         </button>
         <div className="">
-          <p className="text-gray-500 dark:text-gray-400 mb-4">
-            Select your choice:
-          </p>
-          <ul className="space-y-4 mb-4">
-            {cart.map((item, index) => (
-              <li key={index} className="flex items-center gap-4">
-                <div>
-                  <input
-                    type="checkbox"
-                    className="cursor-pointer rounded-md"
-                    onChange={() => handleCheckboxChange(item.id)}
-                    checked={checkedItems[item.id] || false}
-                  />
-                </div>
-                <div className="w-full max-w-md px-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                  <div className="flow-root">
-                    <ul
-                      role="list"
-                      className="divide-y divide-gray-200 dark:divide-gray-700"
+          <Tabs aria-label="Tabs with underline" style="underline">
+            <Tabs.Item active title="Cart">
+              <p className="text-gray-500 dark:text-gray-400 mb-4">
+                Select your choice:
+              </p>
+              <ul className="space-y-4 mb-4">
+                {cart.map((item, index) => (
+                  <li key={index} className="flex items-center gap-4">
+                    <label
+                      htmlFor={`cart-${index}`}
+                      className="w-full cursor-pointer max-w-md px-2 flex items-center gap-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
                     >
-                      <li className="py-3 sm:py-4">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="w-8 h-8 "
-                              src={item.product.image}
-                              alt="Neil image"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0 ms-4">
-                            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                              {item.product.name}
-                            </p>
-                            <p className="text-[8px] text-gray-500 truncate dark:text-gray-400">
-                              quantity : {item.quantity}
-                            </p>
-                          </div>
-                          <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            {formatPrice(item.totalPrice)}
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                      <div>
+                        <input
+                          type="checkbox"
+                          id={`cart-${index}`}
+                          className="cursor-pointer rounded-md"
+                          onChange={() => handleCheckboxChange(item.id)}
+                          checked={checkedItems[item.id] || false}
+                        />
+                      </div>
+                      <div className="flow-root w-full">
+                        <ul
+                          role="list"
+                          className="divide-y divide-gray-200 dark:divide-gray-700 w-full"
+                        >
+                          <li className="py-3 sm:py-4 w-full">
+                            <div className="flex items-center w-full">
+                              <div className="flex-shrink-0">
+                                <img
+                                  className="w-8 h-8 "
+                                  src={item.product.image}
+                                  alt="Neil image"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0 ms-4">
+                                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                  {item.product.name}
+                                </p>
+                                <p className="text-[8px] text-gray-500 truncate dark:text-gray-400">
+                                  quantity : {item.quantity}
+                                </p>
+                              </div>
+                              <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                {formatPrice(item.totalPrice)}
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </Tabs.Item>
+            <Tabs.Item title="Ordered">
+              <p className="text-gray-500 dark:text-gray-400 mb-4">
+                Pesanan sedang dikirim :
+              </p>
+              <ul className="space-y-4 mb-4">
+                {cartOrder.map((item, index) => (
+                  <li key={index} className="flex items-center gap-4">
+                    <div className="w-full max-w-md px-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                      <div className="flow-root">
+                        <ul
+                          role="list"
+                          className="divide-y divide-gray-200 dark:divide-gray-700"
+                        >
+                          <li className="py-3 sm:py-4">
+                            <div className="flex items-center">
+                              <div className="flex-shrink-0">
+                                <img
+                                  className="w-8 h-8 "
+                                  src={item.product.image}
+                                  alt="Neil image"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0 ms-4">
+                                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                  {item.product.name}
+                                </p>
+                                <p className="text-[8px] text-gray-500 truncate dark:text-gray-400">
+                                  quantity : {item.quantity}
+                                </p>
+                              </div>
+                              <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                {formatPrice(item.totalPrice)}
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Tabs.Item>
+            <Tabs.Item title="Delivered">
+              <p className="text-gray-500 dark:text-gray-400 mb-4">
+                Pesanan sedang dikirim :
+              </p>
+              <ul className="space-y-4 mb-4">
+                {cartOrder.map((item, index) => (
+                  <li key={index} className="flex items-center gap-4">
+                    <div className="w-full max-w-md px-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                      <div className="flow-root">
+                        <ul
+                          role="list"
+                          className="divide-y divide-gray-200 dark:divide-gray-700"
+                        >
+                          <li className="py-3 sm:py-4">
+                            <div className="flex items-center">
+                              <div className="flex-shrink-0">
+                                <img
+                                  className="w-8 h-8 "
+                                  src={item.product.image}
+                                  alt="Neil image"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0 ms-4">
+                                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                  {item.product.name}
+                                </p>
+                                <p className="text-[8px] text-gray-500 truncate dark:text-gray-400">
+                                  quantity : {item.quantity}
+                                </p>
+                              </div>
+                              <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                {formatPrice(item.totalPrice)}
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Tabs.Item>
+          </Tabs>
+
           <div className="fixed bottom-0 right-0 w-full flex flex-col justify-end items-end">
-            <p className="p-2">
-              <span className="font-bold">Total Price : </span>
-              {formatPrice(calculateTotalPrice())}
-            </p>
+           
             <button
               type="button"
               onClick={checkout}

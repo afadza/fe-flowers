@@ -12,11 +12,11 @@ function useCart() {
   const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
   const auth = useSelector((state) => state.auth);
-  const cart = auth.cart;
+  const cart = auth.cart.filter((item) => item.checkout === false);
+  const cartOrder = auth.cart.filter((item) => item.checkout === true);
   const [checkedItems, setCheckedItems] = useState({});
   const [cartIdss, setCartIdss] = useState([]);
   const [cartIdsNumbers, setCartIdsNumbers] = useState([]);
-  console.log(checkedItems);
 
   const handleCheckboxChange = (itemId) => {
     setCheckedItems((prevItems) => ({
@@ -36,13 +36,20 @@ function useCart() {
   };
 
   useEffect(() => {
-    setCartIdss(Object.keys(checkedItems).filter((key) => checkedItems[key]));
-    setCartIdsNumbers(cartIdss.map((str) => parseInt(str, 10)));
+    const updatedCartIdss = Object.keys(checkedItems).filter(
+      (key) => checkedItems[key]
+    );
+    setCartIdss(updatedCartIdss);
+    const updatedCartIdsNumbers = updatedCartIdss.map((str) =>
+      parseInt(str, 10)
+    );
+    setCartIdsNumbers(updatedCartIdsNumbers);
   }, [checkedItems]);
 
+  console.log(cartIdsNumbers);
   const { mutate: checkout } = useMutation({
     mutationFn: async () => {
-      const response = await API.delete("/cart", {
+      const response = await API.patch("/cart", {
         cartIds: cartIdsNumbers,
       });
       console.log(response.data);
@@ -62,13 +69,10 @@ function useCart() {
       );
     },
     onError: (error) => {
-      console.error("Error adding to cart:", error);
+      console.log(error.response);
       throw new Error("Failed to add to cart");
     },
   });
-
-  console.log("array id", cartIdss  );
-  console.log("array numbar", cartIdsNumbers);
 
   const formatPrice = (price) => {
     return parseFloat(price).toLocaleString("id-ID", {
@@ -125,6 +129,7 @@ function useCart() {
     incrementQuantity,
     addToCart,
     cart,
+    cartOrder,
     checkout,
     checkedItems,
     handleCheckboxChange,

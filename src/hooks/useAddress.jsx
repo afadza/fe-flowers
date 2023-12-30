@@ -63,7 +63,7 @@ function useAddress() {
   });
 
   const { data: Regencies } = useQuery({
-    queryKey: ["regencies", selectedProvinceId],
+    queryKey: ["regencies", selectedProvinceId.id],
     queryFn: async () => {
       if (selectedProvinceId) {
         const response = await axios.get(
@@ -73,11 +73,11 @@ function useAddress() {
       }
       return [];
     },
-    enabled: !!selectedProvinceId,
+    enabled: !!selectedProvinceId.id,
   });
 
   const { data: Districts } = useQuery({
-    queryKey: ["districts", selectedRegencyId],
+    queryKey: ["districts", selectedRegencyId.id],
     queryFn: async () => {
       if (selectedRegencyId) {
         const response = await axios.get(
@@ -87,11 +87,11 @@ function useAddress() {
       }
       return [];
     },
-    enabled: !!selectedRegencyId,
+    enabled: !!selectedRegencyId.id,
   });
 
   const { data: Villages } = useQuery({
-    queryKey: ["villages", selectedDistrictId],
+    queryKey: ["villages", selectedDistrictId.id],
     queryFn: async () => {
       if (selectedDistrictId) {
         const response = await axios.get(
@@ -101,7 +101,7 @@ function useAddress() {
       }
       return [];
     },
-    enabled: !!selectedDistrictId,
+    enabled: !!selectedDistrictId.id,
   });
 
   const handleProvinceChange = (id, name) => {
