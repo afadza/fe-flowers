@@ -79,11 +79,11 @@ function CartDekstop() {
         </button>
         <div className="">
           <Tabs aria-label="Tabs with underline" style="underline">
-            <Tabs.Item active title="Cart">
+            <Tabs.Item active title={`Cart (${cart.length})`}>
               <p className="text-gray-500 dark:text-gray-400 mb-4">
                 Select your choice:
               </p>
-              <ul className="space-y-4 mb-4">
+              <ul className="space-y-4 mb-12">
                 {cart.map((item, index) => (
                   <li key={index} className="flex items-center gap-4">
                     <label
@@ -132,8 +132,11 @@ function CartDekstop() {
                   </li>
                 ))}
               </ul>
+              <div className="fixed bottom-10 p-2 bg-white w-full -ml-4">
+                <p>Total : {formatPrice(calculateTotalPrice())}</p>
+              </div>
             </Tabs.Item>
-            <Tabs.Item title="Ordered">
+            <Tabs.Item title={`Order (${cartOrder.length})`}>
               <p className="text-gray-500 dark:text-gray-400 mb-4">
                 Pesanan sedang dikirim :
               </p>
@@ -162,6 +165,12 @@ function CartDekstop() {
                                 <p className="text-[8px] text-gray-500 truncate dark:text-gray-400">
                                   quantity : {item.quantity}
                                 </p>
+                                <p className="text-[8px] text-gray-500 truncate dark:text-gray-400">
+                                  status :{" "}
+                                  {item.delivered === true
+                                    ? "Pesanan sedang dikirim"
+                                    : "Pesanan sedang diproses"}
+                                </p>
                               </div>
                               <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                 {formatPrice(item.totalPrice)}
@@ -175,7 +184,7 @@ function CartDekstop() {
                 ))}
               </ul>
             </Tabs.Item>
-            <Tabs.Item title="Delivered">
+            <Tabs.Item title="Accepted">
               <p className="text-gray-500 dark:text-gray-400 mb-4">
                 Pesanan sedang dikirim :
               </p>
@@ -220,7 +229,6 @@ function CartDekstop() {
           </Tabs>
 
           <div className="fixed bottom-0 right-0 w-full flex flex-col justify-end items-end">
-           
             <button
               type="button"
               onClick={checkout}

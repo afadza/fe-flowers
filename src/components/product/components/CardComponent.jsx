@@ -27,7 +27,7 @@ function CardComponent({ flower }) {
 
   return (
     <div className="w-full flex justify-center items-center">
-      <div className="card-prouct w-full h-full md:w-52 hover:shadow-lg hover:cursor-pointer rounded-xl">
+      <div className="card-prouct w-full h-full md:w-52 hover:shadow-lg hover:cursor-pointer rounded-xl bg-white">
         <img
           className=" rounded-t-lg w-full h-32 object-cover"
           src={flower.image}

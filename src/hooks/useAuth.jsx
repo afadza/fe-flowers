@@ -61,7 +61,7 @@ function useAuth() {
           cart: response.data.cartUser,
         })
       );
-      if (response.data.customer.email === 'yo@mail.com') {
+      if (response.data.customer.email === "admin@mail.com") {
         navigate("/admin");
       } else {
         navigate("/");

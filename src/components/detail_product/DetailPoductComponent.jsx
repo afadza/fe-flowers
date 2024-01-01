@@ -8,7 +8,7 @@ function DetailProductComponent() {
     useCart();
   const { Products } = useProduct();
   const { id } = useParams();
-  const flower = Products.find((item) => item.id === parseInt(id, 10));
+  const flower = Products?.find((item) => item.id === parseInt(id, 10));
 
   if (!flower) {
     return <div>Flower not found</div>;

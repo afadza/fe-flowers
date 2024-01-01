@@ -9,8 +9,8 @@ function useCart() {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
+  const token = localStorage.getItem("token");
   const auth = useSelector((state) => state.auth);
   const cart = auth.cart.filter((item) => item.checkout === false);
   const cartOrder = auth.cart.filter((item) => item.checkout === true);
@@ -46,7 +46,6 @@ function useCart() {
     setCartIdsNumbers(updatedCartIdsNumbers);
   }, [checkedItems]);
 
-  console.log(cartIdsNumbers);
   const { mutate: checkout } = useMutation({
     mutationFn: async () => {
       const response = await API.patch("/cart", {

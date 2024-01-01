@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Main from "../layout/Main";
 import HomeComponent from "../components/home/HomeComponent";
-import { useSelector } from "react-redux";
 
 function HomePage() {
-  const auth = useSelector((state) => state.auth);
-
   return (
     <Main>
       <div className="w-full h-full flex justify-center items-center">
