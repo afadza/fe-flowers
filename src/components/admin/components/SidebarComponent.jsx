@@ -15,8 +15,9 @@ import { FaCartArrowDown, FaHandsHelping } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/UseAuth";
-
+import useAdmin from "../../../hooks/useAdmin";
 export default function SidebarComponent() {
+  const { deliverOrder, deliveredOrder } = useAdmin();
   const { handleLogout } = useAuth();
 
   const location = useLocation();
@@ -39,18 +40,42 @@ export default function SidebarComponent() {
           <Sidebar.Item
             href="/admin"
             icon={FaCartArrowDown}
-            className={currentPath === "/admin" ? "bg-gray-100" : ""}
+            className={
+              currentPath === "/admin" ? "bg-gray-100 flex flex-row" : ""
+            }
           >
-            Pesanan
+            {deliverOrder?.length ? (
+              <p className="items-center">
+                Pesanan{" "}
+                <span className="bg-red-500 text-white px-2 rounded-full text-[10px]">
+                  {deliverOrder?.length}
+                </span>
+              </p>
+            ) : (
+              <p>Pesanan</p>
+            )}
           </Sidebar.Item>
           <Sidebar.Item
             href="/deliver"
             icon={TbTruckDelivery}
             className={currentPath === "/deliver" ? "bg-gray-100" : ""}
           >
-            Dalam pengiriman
+            {deliveredOrder?.length ? (
+              <p className="items-center">
+                Dikirim{" "}
+                <span className="bg-red-500 text-white px-2 rounded-full text-[10px]">
+                  {deliveredOrder?.length}
+                </span>
+              </p>
+            ) : (
+              <p>Dikirim</p>
+            )}
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={FaHandsHelping}>
+          <Sidebar.Item
+            href="/received"
+            icon={FaHandsHelping}
+            className={currentPath === "/received" ? "bg-gray-100" : ""}
+          >
             Diterima
           </Sidebar.Item>
           <Sidebar.Item
@@ -60,7 +85,10 @@ export default function SidebarComponent() {
           >
             Products
           </Sidebar.Item>
-          <button onClick={handleLogout} className="flex text-gray-500 items-center gap-3 font-medium hover:bg-gray-100 w-full p-2">
+          <button
+            onClick={handleLogout}
+            className="flex text-gray-500 items-center gap-3 font-medium hover:bg-gray-100 w-full p-2"
+          >
             <TbLogout2 size={25} />
             Logout
           </button>

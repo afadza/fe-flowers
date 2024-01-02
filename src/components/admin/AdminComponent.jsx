@@ -5,6 +5,7 @@ import SidebarComponent from "./components/SidebarComponent";
 import ListOrderComponent from "./components/ListOrderComponent";
 import ListDeliverComponent from "./components/ListDeliverComponent";
 import AddProductComponent from "./components/AddProductComponent";
+import ListReceivedComponent from "./components/ListReceivedComponent";
 
 function AdminComponent() {
   const location = useLocation();
@@ -16,7 +17,11 @@ function AdminComponent() {
     componentToRender = <ListDeliverComponent />;
   } else if (location.pathname === "/addproduct") {
     componentToRender = <AddProductComponent />;
-  } else {
+  } else if (location.pathname === "/received") {
+    componentToRender = <ListReceivedComponent />;
+  }
+  
+  else {
     componentToRender = <div>Page not found</div>;
   }
   return (

@@ -10,8 +10,12 @@ function CartDekstop() {
     checkedItems,
     checkout,
     handleCheckboxChange,
+    cartReceived,
     calculateTotalPrice,
     formatPrice,
+    idOrder,
+    received,
+    setIdOrder,
   } = useCart();
 
   return (
@@ -135,6 +139,15 @@ function CartDekstop() {
               <div className="fixed bottom-10 p-2 bg-white w-full -ml-4">
                 <p>Total : {formatPrice(calculateTotalPrice())}</p>
               </div>
+              <div className="fixed bottom-0 right-0 w-full flex flex-col justify-end items-end">
+                <button
+                  type="button"
+                  onClick={checkout}
+                  className="text-white inline-flex max-w-xs w-full justify-center bg-blue-700 hover:bg-blue-800 font-medium  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Checkout
+                </button>
+              </div>
             </Tabs.Item>
             <Tabs.Item title={`Order (${cartOrder.length})`}>
               <p className="text-gray-500 dark:text-gray-400 mb-4">
@@ -163,17 +176,41 @@ function CartDekstop() {
                                   {item.product.name}
                                 </p>
                                 <p className="text-[8px] text-gray-500 truncate dark:text-gray-400">
-                                  quantity : {item.quantity}
+                                  quantity : {item.quantity}{" "}
+                                  <span className="font-bold ml-2">
+                                    Rp. {formatPrice(item.totalPrice)}
+                                  </span>
                                 </p>
-                                <p className="text-[8px] text-gray-500 truncate dark:text-gray-400">
-                                  status :{" "}
-                                  {item.delivered === true
-                                    ? "Pesanan sedang dikirim"
-                                    : "Pesanan sedang diproses"}
-                                </p>
-                              </div>
-                              <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                {formatPrice(item.totalPrice)}
+                                <div className="flex w-full justify-between">
+                                  <div className="text-[8px]">
+                                    <p className="text-[8px] text-gray-500 truncate dark:text-gray-400 -mb-2">
+                                      status :{" "}
+                                    </p>
+                                    <p>
+                                      {item.delivered === true
+                                        ? "Pesanan sedang dikirim"
+                                        : "Pesanan sedang diproses"}
+                                    </p>
+                                  </div>
+                                  {item.delivered === true ? (
+                                    <button
+                                      onClick={() => {
+                                        setIdOrder(item.id);
+                                        received();
+                                      }}
+                                      className="text-[8px] text-white bg-blue-500 hover:bg-blue-600 active:bg-blue-700 px-1 rounded-lg"
+                                    >
+                                      Pesanan diterima
+                                    </button>
+                                  ) : (
+                                    <button
+                                      disabled
+                                      className="text-[8px] text-white bg-gray-500 cursor-pointer px-1 rounded-lg"
+                                    >
+                                      Pesanan diterima
+                                    </button>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </li>
@@ -186,10 +223,10 @@ function CartDekstop() {
             </Tabs.Item>
             <Tabs.Item title="Accepted">
               <p className="text-gray-500 dark:text-gray-400 mb-4">
-                Pesanan sedang dikirim :
+                Terima kasih sudah memesan💖
               </p>
               <ul className="space-y-4 mb-4">
-                {cartOrder.map((item, index) => (
+                {cartReceived.map((item, index) => (
                   <li key={index} className="flex items-center gap-4">
                     <div className="w-full max-w-md px-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                       <div className="flow-root">
@@ -227,16 +264,6 @@ function CartDekstop() {
               </ul>
             </Tabs.Item>
           </Tabs>
-
-          <div className="fixed bottom-0 right-0 w-full flex flex-col justify-end items-end">
-            <button
-              type="button"
-              onClick={checkout}
-              className="text-white inline-flex max-w-xs w-full justify-center bg-blue-700 hover:bg-blue-800 font-medium  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Checkout
-            </button>
-          </div>
         </div>
       </div>
     </div>

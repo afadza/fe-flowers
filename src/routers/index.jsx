@@ -28,6 +28,7 @@ function RoutePages() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/order" element={<AdminPage />} />
           <Route path="/deliver" element={<AdminPage />} />
+          <Route path="/received" element={<AdminPage />} />
           <Route path="/addproduct" element={<AdminPage />} />
           <Route path="/flashsale" element={<ProductPage />} />
           <Route path="/flashsale/:id" element={<DetailProductPage />} />

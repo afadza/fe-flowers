@@ -121,17 +121,6 @@ function useAdmin() {
 
   const { mutate: addProduct } = useMutation({
     mutationFn: async () => {
-      // const formData = new FormData();
-      // formData.append("name", newProduct.name);
-      // formData.append("image", formData.image ? selectedFile : "");
-      // formData.append("description", newProduct.description);
-      // formData.append("price", newProduct.price);
-      // formData.append("rating", newProduct.rating);
-      // formData.append("stockQuantity", newProduct.stockQuantity);
-      // formData.append("category", selectedOptions);
-
-      // console.log("formData", formData);
-
       const response = await API.post(
         "/product",
         {
@@ -149,10 +138,22 @@ function useAdmin() {
           },
         }
       );
+      setOpenModal(false);
       console.log(" Berhasil add product", response.data);
     },
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["product"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      const response = await API.get("/customer/check", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(
+        AUTH_LOGIN({
+          ...response.data.customer,
+          cart: response.data.cartUser,
+        })
+      );
     },
     onError: (error) => {
       console.log(error);
@@ -162,7 +163,10 @@ function useAdmin() {
 
   const cartOrder = carts?.filter((item) => item.checkout === true);
   const deliverOrder = cartOrder?.filter((item) => item.delivered === false);
-  const deliveredOrder = cartOrder?.filter((item) => item.delivered === true);
+  const deliveredOrder = cartOrder?.filter(
+    (item) => item.delivered === true && item.received === false
+  );
+  const cartReceived = cartOrder?.filter((item) => item.received === true);
 
   return {
     carts,
@@ -184,6 +188,7 @@ function useAdmin() {
     checkedItems,
     deliverOrder,
     deliveredOrder,
+    cartReceived,
   };
 }
 

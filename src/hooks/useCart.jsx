@@ -13,7 +13,10 @@ function useCart() {
   const token = localStorage.getItem("token");
   const auth = useSelector((state) => state.auth);
   const cart = auth.cart.filter((item) => item.checkout === false);
-  const cartOrder = auth.cart.filter((item) => item.checkout === true);
+  const cartOrder = auth.cart.filter(
+    (item) => item.checkout === true && item.received === false
+  );
+  const cartReceived = auth.cart.filter((item) => item.received === true);
   const [checkedItems, setCheckedItems] = useState({});
   const [cartIdss, setCartIdss] = useState([]);
   const [cartIdsNumbers, setCartIdsNumbers] = useState([]);
@@ -122,6 +125,35 @@ function useCart() {
     },
   });
 
+  const [idOrder, setIdOrder] = useState(null);
+
+  const { mutate: received } = useMutation({
+    mutationFn: async () => {
+      const response = await API.patch("/cart/received", {
+        id: idOrder,
+      });
+      console.log(response.data.message);
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ["customer"] });
+      const response = await API.get("/customer/check", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(
+        AUTH_LOGIN({
+          ...response.data.customer,
+          cart: response.data.cartUser,
+        })
+      );
+    },
+    onError: (error) => {
+      console.error("Error received:", error);
+      throw new Error("Failed received");
+    },
+  });
+
   return {
     quantity,
     decrementQuantity,
@@ -134,6 +166,10 @@ function useCart() {
     handleCheckboxChange,
     calculateTotalPrice,
     formatPrice,
+    setIdOrder,
+    idOrder,
+    received,
+    cartReceived
   };
 }
 
