@@ -1,30 +1,22 @@
 "use client";
 
-import {
-  Button,
-  Checkbox,
-  Label,
-  Modal,
-  TextInput,
-  FileInput,
-} from "flowbite-react";
-import { useState } from "react";
+import { Button, Label, Modal, TextInput, FileInput } from "flowbite-react";
 import { HiMiniSquaresPlus } from "react-icons/hi2";
-import UseAuth from "../../../hooks/UseAuth";
+import useAdmin from "../../../hooks/useAdmin";
 
 export default function Component() {
-    const {handleLogout} = UseAuth();
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  function onCloseModal() {
-    setOpenModal(false);
-    setEmail("");
-  }
-
-  function handleFileChange(event) {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-  }
+  const {
+    onCloseModal,
+    openModal,
+    setOpenModal,
+    selectedFile,
+    handleFileChange,
+    handleCategoriesChange,
+    newProduct,
+    handleNewProductChange,
+    addProduct,
+    fileInputRef,
+  } = useAdmin();
 
   return (
     <>
@@ -38,7 +30,14 @@ export default function Component() {
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
-          <div className="space-y-6">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              addProduct();
+            }}
+            encType="multipart/form-data"
+            className="space-y-6"
+          >
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
               Tambah product baru
             </h3>
@@ -46,7 +45,14 @@ export default function Component() {
               <div className="mb-2 block">
                 <Label htmlFor="name" value="Name" />
               </div>
-              <TextInput id="name" placeholder="Bunga Mawar" required />
+              <TextInput
+                id="name"
+                onChange={handleNewProductChange}
+                value={newProduct.name}
+                name="name"
+                placeholder="Bunga Mawar"
+                required
+              />
             </div>
             <div>
               <div id="fileUpload" className="max-w-md">
@@ -64,6 +70,8 @@ export default function Component() {
                 )}
                 <FileInput
                   id="file"
+                  name="image"
+                  ref={fileInputRef}
                   helperText="Select product image"
                   onChange={handleFileChange}
                 />
@@ -73,23 +81,51 @@ export default function Component() {
               <p className="mb-2 block text-sm">Category</p>
               <div className=" flex gap-2">
                 <div className="mb-2 flex gap-1 items-center">
-                  <input type="checkbox" id="flashsale" className="rounded" />
+                  <input
+                    type="checkbox"
+                    id="flashsale"
+                    className="rounded"
+                    onChange={handleCategoriesChange}
+                  />
                   <Label htmlFor="flashsale" value="Flashsale" />
                 </div>
                 <div className="mb-2 flex gap-1 items-center">
-                  <input type="checkbox" id="new" className="rounded" />
+                  <input
+                    type="checkbox"
+                    id="new"
+                    className="rounded"
+                    onChange={handleCategoriesChange}
+                  />
                   <Label htmlFor="new" value="New" />
                 </div>
                 <div className="mb-2 flex gap-1 items-center">
-                  <input type="checkbox" id="bestseller" className="rounded" />
+                  <input
+                    type="checkbox"
+                    id="bestseller"
+                    className="rounded"
+                    onChange={handleCategoriesChange}
+                  />
                   <Label htmlFor="bestseller" value="Bestseller" />
                 </div>
               </div>
             </div>
-            <div className="w-full">
-              <Button>Add</Button>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="price" value="Price" />
+              </div>
+              <TextInput
+                id="price"
+                onChange={handleNewProductChange}
+                value={newProduct.price}
+                name="price"
+                placeholder="Price"
+                required
+              />
             </div>
-          </div>
+            <div className="w-full">
+              <Button type="submit">Add</Button>
+            </div>
+          </form>
         </Modal.Body>
       </Modal>
     </>

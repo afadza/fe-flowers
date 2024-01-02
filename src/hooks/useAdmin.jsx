@@ -69,16 +69,93 @@ function useAdmin() {
     },
   });
 
+  // Add Product Hooks
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    image: "",
+    description: "flower",
+    price: "",
+    rating: 5,
+    stockQuantity: 10,
+    category: [],
+  });
+
+  function handleNewProductChange(event) {
+    const { name, value, files } = event.target;
+
+    if (files) {
+      setSelectedFile(files[0]);
+    } else {
+      setNewProduct({
+        ...newProduct,
+        [name]: value,
+      });
+    }
+  }
+
+  const fileInputRef = React.useRef(null);
+
+  function handleCategoriesChange(event) {
+    const { id, checked } = event.target;
+
+    if (checked) {
+      setSelectedOptions((prevSelectedOptions) => [...prevSelectedOptions, id]);
+    } else {
+      setSelectedOptions((prevSelectedOptions) =>
+        prevSelectedOptions.filter((option) => option !== id)
+      );
+    }
+  }
+
+  function onCloseModal() {
+    setOpenModal(false);
+  }
+
+  function handleFileChange(event) {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  }
+
   const { mutate: addProduct } = useMutation({
-    mutationFn: async (data) => {
-      const response = await API.post("/product", data);
-      console.log(response.data.message);
+    mutationFn: async () => {
+      // const formData = new FormData();
+      // formData.append("name", newProduct.name);
+      // formData.append("image", formData.image ? selectedFile : "");
+      // formData.append("description", newProduct.description);
+      // formData.append("price", newProduct.price);
+      // formData.append("rating", newProduct.rating);
+      // formData.append("stockQuantity", newProduct.stockQuantity);
+      // formData.append("category", selectedOptions);
+
+      // console.log("formData", formData);
+
+      const response = await API.post(
+        "/product",
+        {
+          name: newProduct.name,
+          image: selectedFile,
+          description: newProduct.description,
+          price: newProduct.price,
+          rating: newProduct.rating,
+          stockQuantity: newProduct.stockQuantity,
+          category: selectedOptions,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(" Berhasil add product", response.data);
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["product"] });
     },
     onError: (error) => {
-      console.log(error.response);
+      console.log(error);
       throw new Error("Failed to add to cart");
     },
   });
@@ -89,10 +166,21 @@ function useAdmin() {
 
   return {
     carts,
+    openModal,
+    setOpenModal,
+    handleFileChange,
+    onCloseModal,
+    selectedFile,
+    selectedOptions,
     cartOrder,
     formatPrice,
+    newProduct,
+    handleNewProductChange,
+    addProduct,
+    fileInputRef,
     deliver,
     handleCheckboxChange,
+    handleCategoriesChange,
     checkedItems,
     deliverOrder,
     deliveredOrder,
