@@ -75,6 +75,34 @@ function useCart() {
       throw new Error("Failed to add to cart");
     },
   });
+  const { mutate: deleteCart } = useMutation({
+    mutationFn: async () => {
+      const response = await API.delete("/cart", {
+        data: {
+          cartIds: cartIdsNumbers,
+        },
+      });
+      console.log(response.data);
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      const response = await API.get("/customer/check", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(
+        AUTH_LOGIN({
+          ...response.data.customer,
+          cart: response.data.cartUser,
+        })
+      );
+    },
+    onError: (error) => {
+      console.log(error.response);
+      throw new Error("Failed to add to cart");
+    },
+  });
 
   const formatPrice = (price) => {
     return parseFloat(price).toLocaleString("id-ID", {
@@ -169,7 +197,8 @@ function useCart() {
     setIdOrder,
     idOrder,
     received,
-    cartReceived
+    cartReceived,
+    deleteCart,
   };
 }
 

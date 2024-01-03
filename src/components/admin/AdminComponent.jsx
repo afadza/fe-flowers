@@ -19,9 +19,7 @@ function AdminComponent() {
     componentToRender = <AddProductComponent />;
   } else if (location.pathname === "/received") {
     componentToRender = <ListReceivedComponent />;
-  }
-  
-  else {
+  } else {
     componentToRender = <div>Page not found</div>;
   }
   return (
@@ -30,7 +28,7 @@ function AdminComponent() {
         <div className="fixed h-full  w-[20%]">
           <SidebarComponent />
         </div>
-        <div className="w-full h-full p-4 ml-[24%]">{componentToRender}</div>
+        <div className="w-full h-full p-4 ml-[20%]">{componentToRender}</div>
       </div>
     </div>
   );

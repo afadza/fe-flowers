@@ -21,7 +21,7 @@ function ImageSlider() {
           key={index}
           src={flower.image}
           alt="Gambar 1"
-          className="w-full md:h-[400px] h-[200px] object-cover rounded-lg"
+          className="w-full md:h-[400px] h-[200px] object-contain rounded-lg"
         />
       ))}
     </AliceCarousel>

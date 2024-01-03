@@ -39,29 +39,18 @@ function useAuth() {
     },
   });
 
-  const { mutate: mutateLogin } = useMutation({
+  const { mutate: mutateLogin, error: errorLogin } = useMutation({
     mutationFn: async () => {
       const response = await API.post("/customer/login", {
         email: registerForm.email,
         password: registerForm.password,
       });
       setToken(response.data.token);
+      localStorage.setItem("token", response.data.token);
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["customer"] });
-      localStorage.setItem("token", token);
-      const response = await API.get("/customer/check", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      dispatch(
-        AUTH_LOGIN({
-          ...response.data.customer,
-          cart: response.data.cartUser,
-        })
-      );
-      if (response.data.customer.email === "admin@mail.com") {
+      if (registerForm.email === "admin@mail.com") {
         navigate("/admin");
       } else {
         navigate("/");
@@ -73,7 +62,7 @@ function useAuth() {
   });
 
   function jumpToLogin() {
-    setRegistered(true);
+    setRegistered(!registered);
   }
   async function handleGoogleSignIn() {
     try {
@@ -118,6 +107,7 @@ function useAuth() {
     isPending,
     registerForm,
     error,
+    errorLogin,
     registered,
   };
 }

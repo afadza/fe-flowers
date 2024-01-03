@@ -39,38 +39,40 @@ function DetailProductComponent() {
   };
 
   return (
-    <div className="w-full md:w-[60%] flex flex-col h-screen p-4">
-      <div className="w-full ">
+    <div className="w-full md:w-[70%] flex flex-col h-screen p-4 bg-gray-100">
+      <div className="w-full  border-b-2 pb-2">
         <img
           src={flower.image}
           alt=""
-          className="w-full h-48 md:h-64 object-cover rounded-md"
+          className="w-full h-48 md:h-64 object-contain rounded-md"
         />
       </div>
-      <div className="w-full p-4 flex gap-4">
-        <p className="text-2xl">{flower.name}</p>
-        <div className="flex items-center border border-gray-300 rounded-md p-2">
-          <div className="flex items-center space-x-1 rtl:space-x-reverse">
-            {renderRatingStars()}
-          </div>
-          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
-            {flower.rating}
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 px-4">
+
+      <div className="flex items-center gap-2 md:px-4 mt-2">
         <div className="flex flex-wrap">
           {flower.category.map((category, index) => (
             <p
               key={index}
-              className="text-[10px] mr-1.5  text-leftrounded-md text-gray-400"
+              className="text-[10px] mr-1.5  text-left rounded-md text-gray-400"
             >
               #{category}
             </p>
           ))}
         </div>
       </div>
-      <div className="w-full p-4 flex gap-4 md:items-center justify-between items-end">
+      <div className="w-full md:p-4 gap-4">
+        <p className="text-2xl">{flower.name}</p>
+        <div className="flex items-centerrounded-md py-2">
+          <div className="flex items-center space-x-1 rtl:space-x-reverse">
+            {renderRatingStars()}
+          </div>
+        </div>
+      </div>
+      <div className=" mt-4 md:px-4">
+        <p className="text-sm border-b-2 w-1/4 mb-1">Deskripsi :</p>
+        <p className="text-[10px]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab harum magni quaerat, quia cupiditate sint reiciendis beatae repudiandae exercitationem ipsa? Architecto sunt, accusantium sequi corporis ut quibusdam obcaecati sint, distinctio nostrum deserunt aut repudiandae mollitia dicta ratione praesentium, totam tenetur? Earum tempore beatae vel amet neque accusamus, nisi quod ad!</p>
+      </div>
+      <div className="w-full md:p-4 flex gap-4 md:items-center justify-between items-end mt-4">
         <div className="flex flex-col md:flex-row w-full md:gap-6 gap-2 items-start md:items-center">
           <p className="text-xl md:text-md font-bold">
             Rp. {formatPrice(flower.price)}
@@ -78,14 +80,14 @@ function DetailProductComponent() {
           <div className="flex items-center gap-4">
             <button
               onClick={decrementQuantity}
-              className="border p-2 rounded-full w-8 text-sm h-8 items-center flex justify-center text-center"
+              className="border p-2 rounded-full w-8 text-sm h-8 items-center flex justify-center text-center bg-pink-950 hover:bg-pink-900 text-white"
             >
               -
             </button>
             <p>{quantity}</p>
             <button
               onClick={incrementQuantity}
-              className="border p-2 rounded-full w-8 text-sm h-8 items-center flex justify-center text-center"
+              className="border p-2 rounded-full w-8 text-sm h-8 items-center flex justify-center text-center bg-pink-950 hover:bg-pink-900 text-white"
             >
               +
             </button>
@@ -94,7 +96,7 @@ function DetailProductComponent() {
         <div className="md:w-[30%] w-full flex justify-center">
           <button
             onClick={addToCart}
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="w-full bg-pink-950 hover:bg-pink-900 text-white font-bold py-2 px-4 rounded"
           >
             Add to cart
           </button>

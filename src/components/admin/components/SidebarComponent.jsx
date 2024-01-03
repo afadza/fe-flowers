@@ -35,7 +35,7 @@ export default function SidebarComponent() {
             icon={HiChartPie}
             className={currentPath === "/" ? "bg-gray-100" : ""}
           >
-            Dashboard
+            Dashboard Admin
           </Sidebar.Item>
           <Sidebar.Item
             href="/admin"

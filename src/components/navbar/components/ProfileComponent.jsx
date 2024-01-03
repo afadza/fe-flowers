@@ -4,6 +4,7 @@ import useAddress from "../../../hooks/useAddress";
 import { FiMapPin } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { Tabs } from "flowbite-react";
+import { FaUserEdit } from "react-icons/fa";
 
 function ProfileComponent() {
   const {
@@ -59,7 +60,6 @@ function ProfileComponent() {
               </h3>
               <button
                 type="button"
-                onClick={handleEdit}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-[8px] w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-toggle="crud-modal"
               >
@@ -84,11 +84,11 @@ function ProfileComponent() {
             {/* Modal body */}
 
             {edit ? (
-              <div className="p-4 md:p-5">
+              <div className="p-4 md:p-5 bg-pink-950">
                 <div className="mb-10">
                   <Tabs aria-label="Full width tabs" style="fullWidth">
                     <Tabs.Item active title="Profile">
-                      <div className="col-span-2">
+                      <div className="col-span-2 ">
                         <label
                           htmlFor="name"
                           className="block text-[8px] font-medium text-gray-900 dark:text-white"
@@ -107,7 +107,7 @@ function ProfileComponent() {
                         />
                       </div>
                       <div className="w-full col-span-2 mt-2">
-                        <p className="text-[8px]">Address</p>
+                        <p className="text-[8px] text-gray-800">Address</p>
                         <motion.nav
                           initial={false}
                           animate={isOpen ? "open" : "closed"}
@@ -123,14 +123,9 @@ function ProfileComponent() {
                             }}
                             className="w-full col-span-2"
                           >
-                            <div className="bg-gray-50 cursor-pointer  border border-gray-300 text-gray-900 text-[8px] rounded-md focus:ring-primary-600 focus:border-primary-600 flex flex-col w-full p-1 dark:bg-gray-600 dark:border-gray-500 col-span-2 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 items-center">
+                            <div className="bg-gray-50 cursor-pointer  border border-gray-300 border-b-0 text-gray-900 text-[8px] rounded-md rounded-bl-none rounded-br-none -mb-2 focus:ring-primary-600 focus:border-primary-600 flex flex-col w-full p-1 dark:bg-gray-600 dark:border-gray-500 col-span-2 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 items-center">
                               <div className="flex items-center w-full justify-between">
-                                <p>
-                                  {auth.address
-                                    ? auth.address
-                                    : "Choose your address"}
-                                </p>
-                                <FiMapPin />
+                                <p>Masukan alamat mu</p>
                               </div>
                             </div>
                           </motion.button>
@@ -164,8 +159,8 @@ function ProfileComponent() {
                                 onChange={handleChange}
                                 value={customer.address}
                                 id="address"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Jl. Kebon jeruk..."
+                                className="bg-gray-50 pt-0 border border-gray-300 border-t-0 text-gray-900 text-[8px] rounded-md rounded-tl-none rounded-tr-none block w-full p-1 "
+                                placeholder="Contoh : Jl. Kebon jeruk..."
                                 required
                               />
                             </div>
@@ -292,7 +287,7 @@ function ProfileComponent() {
                               onChange={handleChange}
                               value={customer.email}
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              placeholder="jhon@mail.com"
+                              placeholder="Contoh: jhon@mail.com"
                               required
                             />
                           </label>
@@ -304,12 +299,12 @@ function ProfileComponent() {
                           >
                             Password
                             <input
-                              type="text"
+                              type="password"
                               name="password"
                               onChange={handleChange}
                               value={customer.password}
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              placeholder="jhon@mail.com"
+                              placeholder="Contoh: *******"
                               required
                             />
                           </label>
@@ -318,7 +313,7 @@ function ProfileComponent() {
                     </Tabs.Item>
                   </Tabs>
                 </div>
-                <div className="flex justify-end gap-2">
+                <div className="flex justify-end gap-2 ">
                   <button
                     type="button"
                     onClick={handleEdit}
@@ -339,57 +334,48 @@ function ProfileComponent() {
                 </div>
               </div>
             ) : (
-              <div className="p-4 md:p-5">
-                <div className="grid gap-4 mb-4 grid-cols-2 text-[8px]">
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="name"
-                      className="block font-medium text-gray-900 dark:text-white"
+              <div className="bg-pink-950 h-[350px] font-sans text-black w-full flex flex-row justify-center items-end">
+                <div className="card w-full mx-auto bg-white  shadow-xl hover:shadow">
+                  <img
+                    className="w-32 mx-auto rounded-full -mt-16 border-8 border-white bg-white"
+                    src="../../../public/assets/images/profile.png"
+                    alt=""
+                  />
+                  <div className="text-center mt-2 gap-2 text-3xl font-medium flex items-center justify-center">
+                    <p>👋, {auth.name}</p>
+                    <button
+                      type="button"
+                      onClick={handleEdit}
+                      className="text-white items-center bg-pink-950 p-1 rounded-full"
                     >
-                      Name
-                    </label>
-                    <div className="bg-gray-50  border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 flex flex-col w-full p-1 dark:bg-gray-600 dark:border-gray-500 col-span-2 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 items-center">
-                      <div className="flex items-center w-full gap-2">
-                        <VscAccount />
-                        <p>{auth.name}</p>
-                      </div>
-                    </div>
+                      <FaUserEdit size={10} />
+                    </button>
                   </div>
-                  <div className="w-full col-span-2">
-                    <p>Address</p>
-                    <div className="bg-gray-50  border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 flex flex-col w-full p-1 dark:bg-gray-600 dark:border-gray-500 col-span-2 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 items-center">
-                      <div className="flex items-center w-full gap-2">
-                        <FiMapPin />
-                        <p>{auth.address}</p>
-                      </div>
-                    </div>
+                  <div className="px-6 text-center mt-2 font-light text-sm">
+                    <p>
+                      {auth.address
+                        ? auth.address
+                        : "Kamu belum menambahkan alamat"}
+                    </p>
                   </div>
-                  <div className="col-span-2">
-                    <label
-                      htmlFor="description"
-                      className="block mb-2 text-[8px] font-medium text-gray-900 dark:text-white"
+                  <hr className="mt-8" />
+                  <div className="flex p-4 text-center">
+                    <button
+                      type="button"
+                      data-modal-toggle="crud-modal"
+                      className="text-white items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 w-full"
                     >
-                      Email
-                      <input
-                        type="text"
-                        name="email"
-                        disabled
-                        value={auth.email}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-[8px] rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Type product name"
-                        required
-                      />
-                    </label>
+                      Cancel
+                    </button>
+                    <div className="w-0 border border-gray-300 mx-2"></div>
+                    <button
+                      type="button"
+                      onClick={handleEdit}
+                      className="text-white items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 w-full"
+                    >
+                      Edit
+                    </button>
                   </div>
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    onClick={handleEdit}
-                    className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[8px] px-5 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Edit
-                  </button>
                 </div>
               </div>
             )}

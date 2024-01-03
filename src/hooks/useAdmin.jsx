@@ -121,6 +121,7 @@ function useAdmin() {
 
   const { mutate: addProduct } = useMutation({
     mutationFn: async () => {
+      setOpenModal(false);
       const response = await API.post(
         "/product",
         {
@@ -138,10 +139,21 @@ function useAdmin() {
           },
         }
       );
-      setOpenModal(false);
       console.log(" Berhasil add product", response.data);
     },
     onSuccess: async () => {
+      setOpenModal(false);
+      setSelectedFile(null);
+      setSelectedOptions([]);
+      setNewProduct({
+        name: "",
+        image: "",
+        description: "flower",
+        price: "",
+        rating: 5,
+        stockQuantity: 10,
+        category: [],
+      });
       queryClient.invalidateQueries({ queryKey: ["products"] });
       const response = await API.get("/customer/check", {
         headers: {

@@ -27,41 +27,38 @@ function CardComponent({ flower }) {
 
   return (
     <div className="w-full flex justify-center items-center">
-      <div className="card-prouct w-full h-full md:w-52 hover:shadow-lg hover:cursor-pointer rounded-xl bg-white">
-        <img
-          className=" rounded-t-lg w-full h-32 object-cover"
-          src={flower.image}
-          alt="product image"
-        />
-        <div className="p-2">
-          <div className="flex items-center w-full gap-4 mt-2">
-            <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-              {flower.name}
-            </h5>
-          </div>
-          <div className="flex items-center">
-            <div className="flex items-center space-x-1 rtl:space-x-reverse">
-              {renderRatingStars()}
-            </div>
-            <span className="bg-blue-100 text-blue-800 text-[8px] font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
-              {flower.rating}
-            </span>
-          </div>
-          <div className="flex items-center h-10 gap-2">
+      <div className="card-prouct w-full h-full md:w-52 hover:shadow-lg hover:cursor-pointer rounded-xl bg-white hover:bg-gray-50 border-2">
+        <div className="w-full h-32 p-2">
+          <img
+            className="rounded-t-lg w-full h-full object-contain"
+            src={flower.image}
+            alt="product image"
+          />
+        </div>
+        <div className="p-2 bg-pink-950 text-white rounded-br-xl rounded-bl-xl">
+          <div className="flex items-center gap-2">
             <div className="flex flex-wrap">
               {flower.category.map((category, index) => (
                 <p
                   key={index}
-                  className="text-[8px] mr-1.5  text-leftrounded-md text-gray-400"
+                  className="text-[8px] mr-1.5  text-left rounded-md text-gray-400"
                 >
                   #{category}
                 </p>
               ))}
             </div>
           </div>
+          <div className="flex items-center w-full gap-4 mt-2">
+            <h5 className="text-md font-bold tracking-tight ">{flower.name}</h5>
+          </div>
+          <div className="flex items-center">
+            <div className="flex items-center space-x-1 rtl:space-x-reverse">
+              {renderRatingStars()}
+            </div>
+          </div>
 
-          <div className="flex items-center justify-between gap-10">
-            <span className="text-sm font-bold text-gray-900 dark:text-white">
+          <div className="flex items-center justify-between gap-10 mt-4">
+            <span className="text-sm font-bold ">
               Rp. {formatPrice(flower.price)}
             </span>
           </div>

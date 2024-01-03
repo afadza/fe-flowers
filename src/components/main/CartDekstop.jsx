@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IoCartOutline } from "react-icons/io5";
 import { Tabs } from "flowbite-react";
 import useCart from "../../hooks/useCart";
+import { MdDelete } from "react-icons/md";
 
 function CartDekstop() {
   const {
@@ -14,6 +15,7 @@ function CartDekstop() {
     calculateTotalPrice,
     formatPrice,
     idOrder,
+    deleteCart,
     received,
     setIdOrder,
   } = useCart();
@@ -30,7 +32,7 @@ function CartDekstop() {
           data-drawer-placement="right"
           aria-controls="drawer-right-example"
         >
-          <p className="text-[10px] bg-blue-700 rounded-full text-center text-white -mb-[10px] -ml-[5px] w-[20px]">
+          <p className="text-[10px] bg-white rounded-full text-center text-black font-bold -mb-[13px] z-50 -ml-[5px] w-[20px]">
             {cart.length}
           </p>
           <IoCartOutline className="md:w-8 md:h-8 w-5 h-5" />
@@ -39,65 +41,41 @@ function CartDekstop() {
       {/* drawer component */}
       <div
         id="drawer-right-example"
-        className="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
+        className="fixed top-0 right-0 z-40 h-screen p-2 overflow-y-auto transition-transform translate-x-full bg-white w-[370px] dark:bg-gray-800"
         tabIndex={-1}
         aria-labelledby="drawer-right-label"
       >
-        <h5
-          id="drawer-right-label"
-          className="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"
-        >
-          <svg
-            className="w-4 h-4 me-2.5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-          </svg>
-          Your cart
-        </h5>
-        <button
-          type="button"
-          data-drawer-hide="drawer-right-example"
-          aria-controls="drawer-right-example"
-          className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          <svg
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
-          <span className="sr-only">Close menu</span>
-        </button>
-        <div className="">
-          <Tabs aria-label="Tabs with underline" style="underline">
-            <Tabs.Item active title={`Cart (${cart.length})`}>
-              <p className="text-gray-500 dark:text-gray-400 mb-4">
-                Select your choice:
-              </p>
+        <div className="w-full">
+          <Tabs aria-label="Tabs with underline" style="underline" className="w-full flex">
+            <Tabs.Item
+              active
+              title={`Keranjang (${cart.length})`}
+              className="w-full h-screen bg-red-900"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <p className="text-gray-500 dark:text-gray-400">
+                  Pilih keranjangmu:
+                </p>
+
+                <button
+                  type="button"
+                  onClick={deleteCart}
+                  className="text-white bg-red-600 w-8 h-8 rounded-md hover:bg-red-700 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900 flex items-center justify-center"
+                >
+                  <MdDelete size={20} />
+                </button>
+              </div>
               <ul className="space-y-4 mb-12">
                 {cart.map((item, index) => (
                   <li key={index} className="flex items-center gap-4">
                     <label
-                      htmlFor={`cart-${index}`}
+                      htmlFor={`cartD-${index}`}
                       className="w-full cursor-pointer max-w-md px-2 flex items-center gap-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
                     >
                       <div>
                         <input
                           type="checkbox"
-                          id={`cart-${index}`}
+                          id={`cartD-${index}`}
                           className="cursor-pointer rounded-md"
                           onChange={() => handleCheckboxChange(item.id)}
                           checked={checkedItems[item.id] || false}
@@ -136,20 +114,20 @@ function CartDekstop() {
                   </li>
                 ))}
               </ul>
-              <div className="fixed bottom-10 p-2 bg-white w-full -ml-4">
+              <div className=" bg-white w-full text-black fixed bottom-16">
                 <p>Total : {formatPrice(calculateTotalPrice())}</p>
               </div>
-              <div className="fixed bottom-0 right-0 w-full flex flex-col justify-end items-end">
+              <div className="w-full fixed max-w-[355px] bottom-3">
                 <button
                   type="button"
                   onClick={checkout}
-                  className="text-white inline-flex max-w-xs w-full justify-center bg-blue-700 hover:bg-blue-800 font-medium  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white rounded-md  w-full justify-center bg-pink-950 hover:bg-pink-900 font-medium  text-sm px-5 py-2.5 text-center"
                 >
                   Checkout
                 </button>
               </div>
             </Tabs.Item>
-            <Tabs.Item title={`Order (${cartOrder.length})`}>
+            <Tabs.Item title={`Pesanan (${cartOrder.length})`}>
               <p className="text-gray-500 dark:text-gray-400 mb-4">
                 Pesanan sedang dikirim :
               </p>
@@ -221,7 +199,7 @@ function CartDekstop() {
                 ))}
               </ul>
             </Tabs.Item>
-            <Tabs.Item title="Accepted">
+            <Tabs.Item title="Diterima" >
               <p className="text-gray-500 dark:text-gray-400 mb-4">
                 Terima kasih sudah memesan💖
               </p>
