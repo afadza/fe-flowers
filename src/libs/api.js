@@ -1,13 +1,13 @@
 import axios from "axios";
 
 export const API = axios.create({
-    baseURL: "http://localhost:3000/api",
-})
+  baseURL: "https://api-flowers-k1jt.onrender.com/api",
+});
 
 export function setAuthToken(token) {
-    if (token) {
-        API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    } else {
-        delete API.defaults.headers.common["Authorization"];
-    }
+  if (token) {
+    API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete API.defaults.headers.common["Authorization"];
+  }
 }
