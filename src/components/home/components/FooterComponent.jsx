@@ -1,9 +1,4 @@
 import React from "react";
-import { FaInstagram } from "react-icons/fa";
-import { FaGooglePlay } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-
 function FooterComponent() {
   return (
     <footer>
@@ -76,7 +71,7 @@ function FooterComponent() {
                 </li>
                 <li>
                   <a href="#" className="hover:text-blue-400">
-                   Flowers Family
+                    Flowers Family
                   </a>
                 </li>
                 <li>

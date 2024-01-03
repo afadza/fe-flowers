@@ -1,12 +1,13 @@
 import React from "react";
 import { VscAccount } from "react-icons/vsc";
 import useAddress from "../../../hooks/useAddress";
-import { FiMapPin } from "react-icons/fi";
+import useAuth from "../../../hooks/useAuth";
 import { motion } from "framer-motion";
 import { Tabs } from "flowbite-react";
 import { FaUserEdit } from "react-icons/fa";
 
 function ProfileComponent() {
+  const { handleLogout } = useAuth();
   const {
     auth,
     isOpen,
@@ -362,10 +363,11 @@ function ProfileComponent() {
                   <div className="flex p-4 text-center">
                     <button
                       type="button"
+                      onClick={handleLogout}
                       data-modal-toggle="crud-modal"
                       className="text-white items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 w-full"
                     >
-                      Cancel
+                      Logout
                     </button>
                     <div className="w-0 border border-gray-300 mx-2"></div>
                     <button

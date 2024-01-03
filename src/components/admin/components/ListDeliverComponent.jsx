@@ -1,14 +1,8 @@
 import React from "react";
 import useAdmin from "../../../hooks/useAdmin";
 
-function ListDeliverComponent({ item }) {
-  const {
-    formatPrice,
-    deliveredOrder,
-    handleCheckboxChange,
-    deliver,
-    checkedItems,
-  } = useAdmin();
+function ListDeliverComponent() {
+  const { formatPrice, deliveredOrder } = useAdmin();
 
   return (
     <div className="w-full h-full">
@@ -209,7 +203,6 @@ function ListDeliverComponent({ item }) {
           {deliveredOrder?.map((item, index) => (
             <tbody key={index} className="text-[10px]">
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
                 <th
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"

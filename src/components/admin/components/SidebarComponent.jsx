@@ -1,21 +1,16 @@
 "use client";
 
-import { Badge, Sidebar } from "flowbite-react";
-import {
-  HiArrowSmRight,
-  HiChartPie,
-  HiInbox,
-  HiShoppingBag,
-  HiTable,
-  HiUser,
-  HiViewBoards,
-} from "react-icons/hi";
+import { HiShoppingBag } from "react-icons/hi";
 import { TbLogout2, TbTruckDelivery } from "react-icons/tb";
 import { FaCartArrowDown, FaHandsHelping } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/UseAuth";
 import useAdmin from "../../../hooks/useAdmin";
+import ListOrderComponent from "./ListOrderComponent";
+import ListDeliverComponent from "./ListDeliverComponent";
+import AddProductComponent from "./AddProductComponent";
+import ListReceivedComponent from "./ListReceivedComponent";
 export default function SidebarComponent() {
   const { deliverOrder, deliveredOrder } = useAdmin();
   const { handleLogout } = useAuth();
@@ -26,108 +21,149 @@ export default function SidebarComponent() {
   useEffect(() => {
     setCurrentPath(location.pathname);
   }, [location]);
+
+  let componentToRender;
+  if (location.pathname === "/admin") {
+    componentToRender = <ListOrderComponent />;
+  } else if (location.pathname === "/deliver") {
+    componentToRender = <ListDeliverComponent />;
+  } else if (location.pathname === "/addproduct") {
+    componentToRender = <AddProductComponent />;
+  } else if (location.pathname === "/received") {
+    componentToRender = <ListReceivedComponent />;
+  } else {
+    componentToRender = <div>Page not found</div>;
+  }
   return (
-    <Sidebar aria-label="Sidebar with call to action button example">
-      <Sidebar.Items>
-        <Sidebar.ItemGroup>
-          <Sidebar.Item
-            href="#"
-            icon={HiChartPie}
-            className={currentPath === "/" ? "bg-gray-100" : ""}
-          >
-            Dashboard Admin
-          </Sidebar.Item>
-          <Sidebar.Item
-            href="/admin"
-            icon={FaCartArrowDown}
-            className={
-              currentPath === "/admin" ? "bg-gray-100 flex flex-row" : ""
-            }
-          >
-            {deliverOrder?.length ? (
-              <p className="items-center">
-                Pesanan{" "}
-                <span className="bg-red-500 text-white px-2 rounded-full text-[10px]">
-                  {deliverOrder?.length}
-                </span>
-              </p>
-            ) : (
-              <p>Pesanan</p>
-            )}
-          </Sidebar.Item>
-          <Sidebar.Item
-            href="/deliver"
-            icon={TbTruckDelivery}
-            className={currentPath === "/deliver" ? "bg-gray-100" : ""}
-          >
-            {deliveredOrder?.length ? (
-              <p className="items-center">
-                Dikirim{" "}
-                <span className="bg-red-500 text-white px-2 rounded-full text-[10px]">
-                  {deliveredOrder?.length}
-                </span>
-              </p>
-            ) : (
-              <p>Dikirim</p>
-            )}
-          </Sidebar.Item>
-          <Sidebar.Item
-            href="/received"
-            icon={FaHandsHelping}
-            className={currentPath === "/received" ? "bg-gray-100" : ""}
-          >
-            Diterima
-          </Sidebar.Item>
-          <Sidebar.Item
-            href="/addproduct"
-            icon={HiShoppingBag}
-            className={currentPath === "/addproduct" ? "bg-gray-100" : ""}
-          >
-            Products
-          </Sidebar.Item>
-          <button
-            onClick={handleLogout}
-            className="flex text-gray-500 items-center gap-3 font-medium hover:bg-gray-100 w-full p-2"
-          >
-            <TbLogout2 size={25} />
-            Logout
-          </button>
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
-      <Sidebar.CTA>
-        <div className="mb-3 flex items-center">
-          <Badge color="warning">Beta</Badge>
-          <button
-            aria-label="Close"
-            className="-m-1.5 ml-auto inline-flex h-6 w-6 rounded-lg bg-gray-100 p-1 text-cyan-900 hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
-            type="button"
-          >
-            <svg
-              aria-hidden
-              className="h-4 w-4"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
-        <div className="mb-3 text-sm text-cyan-900 dark:text-gray-400">
-          Preview the new Flowbite dashboard navigation! You can turn the new
-          navigation off for a limited time in your profile.
-        </div>
-        <a
-          className="text-sm text-cyan-900 underline hover:text-cyan-800 dark:text-gray-400 dark:hover:text-gray-300"
-          href="#"
+    <div className="w-full bg-pink-950 h-screen overflow-auto">
+      <button
+        data-drawer-target="logo-sidebar"
+        data-drawer-toggle="logo-sidebar"
+        aria-controls="logo-sidebar"
+        type="button"
+        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+      >
+        <span className="sr-only">Open sidebar</span>
+        <svg
+          className="w-6 h-6"
+          aria-hidden="true"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Turn new navigation off
-        </a>
-      </Sidebar.CTA>
-    </Sidebar>
+          <path
+            clipRule="evenodd"
+            fillRule="evenodd"
+            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+          />
+        </svg>
+      </button>
+      <aside
+        id="logo-sidebar"
+        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar"
+      >
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <a
+            href="/admin"
+            className="flex items-center ps-2.5 mb-5 border-b-2 pb-2"
+          >
+            🌹 Flowers Fam
+          </a>
+          <ul className="space-y-2 font-medium">
+            <li>
+              <a
+                href="#"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 21"
+                >
+                  <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                  <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                </svg>
+                <span className="ms-3">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/admin"
+                className={
+                  currentPath === "/admin"
+                    ? "bg-gray-100  flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
+                    : "flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
+                }
+              >
+                <FaCartArrowDown size={20} className="text-gray-500" />
+                <span className="flex-1 ms-3 whitespace-nowrap">Pesanan</span>
+                {deliverOrder?.length > 0 && (
+                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                    {deliverOrder?.length}
+                  </span>
+                )}
+              </a>
+            </li>
+            <li>
+              <a
+                href="/deliver"
+                className={
+                  currentPath === "/deliver"
+                    ? "bg-gray-100  flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
+                    : "flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
+                }
+              >
+                <TbTruckDelivery size={20} className="text-gray-500" />
+                <span className="flex-1 ms-3 whitespace-nowrap">Dikirim</span>
+                {deliveredOrder?.length > 0 && (
+                  <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                    {deliveredOrder?.length}
+                  </span>
+                )}
+              </a>
+            </li>
+            <li>
+              <a
+                href="/received"
+                className={
+                  currentPath === "/received"
+                    ? "bg-gray-100  flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
+                    : "flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
+                }
+              >
+                <FaHandsHelping size={20} className="text-gray-500" />
+                <span className="flex-1 ms-3 whitespace-nowrap">Diterima</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/addproduct"
+                className={
+                  currentPath === "/addproduct"
+                    ? "bg-gray-100  flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
+                    : "flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
+                }
+              >
+                <HiShoppingBag size={20} className="text-gray-500" />
+                <span className="flex-1 ms-3 whitespace-nowrap">Products</span>
+              </a>
+            </li>
+            <li>
+              <button
+                onClick={handleLogout}
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <TbLogout2 size={20} className="text-gray-500" />
+                <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </aside>
+      <div className="p-4 sm:ml-64">{componentToRender}</div>
+    </div>
   );
 }

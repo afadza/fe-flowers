@@ -2,7 +2,7 @@ import React from "react";
 import useAdmin from "../../../hooks/useAdmin";
 
 function ListReceivedComponent({ item }) {
-  const { formatPrice, deliveredOrder, deliver, cartReceived } = useAdmin();
+  const { formatPrice, cartReceived } = useAdmin();
 
   return (
     <div className="w-full h-full">

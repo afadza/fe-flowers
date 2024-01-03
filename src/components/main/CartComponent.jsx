@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React from "react";
 import { IoCartOutline } from "react-icons/io5";
 import useCart from "../../hooks/useCart";
 import { Tabs } from "flowbite-react";
@@ -16,7 +18,6 @@ function CartComponent() {
     cartReceived,
     calculateTotalPrice,
     formatPrice,
-    idOrder,
     received,
     setIdOrder,
   } = useCart();

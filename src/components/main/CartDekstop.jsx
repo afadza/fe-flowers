@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React from "react";
 import { IoCartOutline } from "react-icons/io5";
 import { Tabs } from "flowbite-react";
 import useCart from "../../hooks/useCart";
@@ -46,7 +48,11 @@ function CartDekstop() {
         aria-labelledby="drawer-right-label"
       >
         <div className="w-full">
-          <Tabs aria-label="Tabs with underline" style="underline" className="w-full flex">
+          <Tabs
+            aria-label="Tabs with underline"
+            style="underline"
+            className="w-full flex"
+          >
             <Tabs.Item
               active
               title={`Keranjang (${cart.length})`}
@@ -199,7 +205,7 @@ function CartDekstop() {
                 ))}
               </ul>
             </Tabs.Item>
-            <Tabs.Item title="Diterima" >
+            <Tabs.Item title="Diterima">
               <p className="text-gray-500 dark:text-gray-400 mb-4">
                 Terima kasih sudah memesan💖
               </p>

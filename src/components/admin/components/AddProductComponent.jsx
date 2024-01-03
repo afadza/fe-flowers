@@ -7,10 +7,10 @@ function AddProductComponent() {
   const { Products } = useProduct();
   return (
     <div className="w-full h-full">
-      <div className="mb-8 ml-4">
+      <div className="mb-8 ">
         <AddProductModal />
       </div>
-      <div className=" w-full h-full grid grid-cols-4 gap-4 justify-center items-center">
+      <div className=" w-full h-full grid xl:grid-cols-5 md:grid-cols-4 grid-cols-2 gap-4 justify-center items-center">
         {Products?.map((flower, index) => (
           <CardComponent flower={flower} key={index} />
         ))}

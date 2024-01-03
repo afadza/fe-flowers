@@ -1,7 +1,7 @@
 import React from "react";
 import useAdmin from "../../../hooks/useAdmin";
 
-function ListOrderComponent({ item }) {
+function ListOrderComponent() {
   const {
     formatPrice,
     deliverOrder,

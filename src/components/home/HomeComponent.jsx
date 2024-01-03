@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import ImageSlider from "./components/ImageSliderComponent";
 import ChategoryComponent from "./components/CategoryComponent";
@@ -8,7 +10,7 @@ import useProduct from "../../hooks/useProduct";
 
 function HomeComponent() {
   const { Products } = useProduct();
-  
+
   return (
     <div className="md:w-[70%] w-full flex flex-col h-full items-center bg-gray-100 ">
       <div className="w-full items-center flex justify-center mt-4 border-b-2 px-4">

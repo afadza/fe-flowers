@@ -2,11 +2,9 @@ import React from "react";
 import { VscAccount } from "react-icons/vsc";
 import useAuth from "../../hooks/useAuth";
 import ProfileComponent from "./components/ProfileComponent";
-import { useSelector } from "react-redux";
 import CartDekstop from "../main/CartDekstop";
 
 function NavbarComponent() {
-  const auth = useSelector((state) => state.auth);
   const { handleLogout } = useAuth();
   return (
     <nav className=" border-gray-200 bg-pink-950 text-white w-full text-sm">
