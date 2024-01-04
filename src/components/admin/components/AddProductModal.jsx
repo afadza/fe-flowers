@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Label, Modal, TextInput, FileInput } from "flowbite-react";
 import { HiMiniSquaresPlus } from "react-icons/hi2";
 import useAdmin from "../../../hooks/useAdmin";

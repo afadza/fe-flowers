@@ -1,6 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
-import { auth, provider } from "./firebase";
-import { signInWithPopup } from "firebase/auth";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AUTH_LOGIN, AUTH_LOGOUT } from "../stores/RootReducer";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import ImageSlider from "./components/ImageSliderComponent";
 import ChategoryComponent from "./components/CategoryComponent";

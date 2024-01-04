@@ -1,5 +1,3 @@
-"use client";
-
 import { HiShoppingBag } from "react-icons/hi";
 import { TbLogout2, TbTruckDelivery } from "react-icons/tb";
 import { FaCartArrowDown, FaHandsHelping } from "react-icons/fa";
