@@ -11,7 +11,7 @@ function ChategoryComponent() {
       <div className="flex py-4 justify-center gap-4 md:gap-8 items-center w-full text-white">
         <div className="md:w-24 w-16 h-16 md:h-24 bg-gray-100 rounded-full border-pink-800 border-4 items-center flex flex-col gap-4">
           <img
-            src="../../../public/assets/images/flower-1.png"
+            src="https://i.ibb.co/HhKcwh3/flower-1.png"
             alt=""
             className="w-20 "
           />
@@ -21,7 +21,7 @@ function ChategoryComponent() {
         </div>
         <div className="md:w-24 w-16 h-16 md:h-24 bg-gray-100 rounded-full border-pink-800 border-4 items-center flex flex-col gap-4">
           <img
-            src="../../../public/assets/images/flower-1.png"
+            src="https://i.ibb.co/HhKcwh3/flower-1.png"
             alt=""
             className="w-20"
           />
@@ -29,7 +29,7 @@ function ChategoryComponent() {
         </div>
         <div className="md:w-24 w-16 h-16 md:h-24 bg-gray-100 rounded-full border-pink-800 border-4 items-center flex flex-col gap-4">
           <img
-            src="../../../public/assets/images/flower-1.png"
+            src="https://i.ibb.co/HhKcwh3/flower-1.png"
             alt=""
             className="w-20"
           />
@@ -39,7 +39,7 @@ function ChategoryComponent() {
         </div>
         <div className="md:w-24 w-16 h-16 md:h-24 bg-gray-100 rounded-full border-pink-800 border-4 items-center flex flex-col gap-4">
           <img
-            src="../../../public/assets/images/flower-1.png"
+            src="https://i.ibb.co/HhKcwh3/flower-1.png"
             alt=""
             className="w-20"
           />

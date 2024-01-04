@@ -14,7 +14,7 @@ function NavbarComponent() {
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
-            src="../../../public/assets/images/flower-1.png"
+            src="https://i.ibb.co/HhKcwh3/flower-1.png"
             className="h-8"
             alt="Flowbite Logo"
           />
