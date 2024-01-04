@@ -3,7 +3,7 @@ import { TbLogout2, TbTruckDelivery } from "react-icons/tb";
 import { FaCartArrowDown, FaHandsHelping } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useAuth from "../../../hooks/UseAuth";
+import useAuth from "../../../hooks/useAuth";
 import useAdmin from "../../../hooks/useAdmin";
 import ListOrderComponent from "./ListOrderComponent";
 import ListDeliverComponent from "./ListDeliverComponent";
