@@ -75,7 +75,6 @@ function useAuth() {
   }
 
   return {
-    handleGoogleSignIn,
     handleLogout,
     handleChange,
     mutate,
