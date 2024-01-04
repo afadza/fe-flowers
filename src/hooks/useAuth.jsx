@@ -64,30 +64,9 @@ function useAuth() {
   function jumpToLogin() {
     setRegistered(!registered);
   }
-  async function handleGoogleSignIn() {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      localStorage.setItem("token", result.user.accessToken);
-      dispatch(
-        AUTH_LOGIN({
-          id: result.user.uid,
-          token: result.user.accessToken,
-          name: result.user.displayName,
-          email: result.user.email,
-          password: result.user.uid,
-        })
-      );
-      if (result) {
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Error autentikasi:", error);
-    }
-  }
 
   async function handleLogout() {
     try {
-      await auth.signOut();
       dispatch(AUTH_LOGOUT());
       setRegistered(false);
       console.log("user logout");
